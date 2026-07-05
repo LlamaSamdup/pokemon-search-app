@@ -35,3 +35,11 @@
 #suggestion div:hover {
     background-color: #eee;
 }
+
+#errorMessage {
+    color: #d32f2f;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 15px;
+}

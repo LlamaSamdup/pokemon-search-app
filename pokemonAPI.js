@@ -1,8 +1,6 @@
 const input = document.getElementById("pokemonName");
 const suggestion = document.getElementById("suggestion");
 
-
-
 let pokemonList = []
 
 function formatText(text) {
@@ -88,7 +86,7 @@ async function getPokemon() {
     const heightElement = document.getElementById("pokemonHeight");
     const weightElement = document.getElementById("pokemonWeight");
     const abilityElement = document.getElementById("pokemonAbility");
-
+    const errorElement = document.getElementById("errorMessage");
 
 
     // Hide previous image
@@ -97,12 +95,14 @@ async function getPokemon() {
 
     try {
 
-    const pokemonName = document
+    errorElement.innerHTML = "";    
+
+    const searchValue = document
     .getElementById("pokemonName")
     .value
     .toLowerCase();
 
-    const response = await fetch (`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    const response = await fetch (`https://pokeapi.co/api/v2/pokemon/${searchValue}`);
 
         if (!response.ok) {
             throw new Error("Pokemon not found")
@@ -124,13 +124,13 @@ async function getPokemon() {
         nameElement.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
 
         // Pokemon Id
-        idElement.textContent = `Id: ${data.id}`;
+        idElement.textContent = `Id: #${data.id}`;
 
         // Pokemon Types
         // we have to use map here instead of forEach, because we want to extract all the
         // type names into new array. 
         const types = data.types.map(
-            typeInfo => typeInfo.type.name
+            typeInfo => formatText(typeInfo.type.name)
         );
 
         typeElement.textContent = `Type: ${types.join(", ")}`;
@@ -152,7 +152,20 @@ async function getPokemon() {
 
 
     } catch (error) {
-        console.log(error);
+        nameElement.textContent = "Pokémon not found ❌";
+        idElement.textContent = "";
+        typeElement.innerHTML = "";
+        heightElement.textContent = "";
+        weightElement.textContent = "";
+        abilityElement.textContent = "";
+
+        errorElement.innerHTML = `
+        Try searching by: <br>
+        • Name (Pikachu)<br>
+        • ID (25)
+        `;
+
+        card.style.backgroundColor = "#ffffff";
     }
 
     suggestion.innerHTML = "";
