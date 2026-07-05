@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOM</title>
+    <title>Fetch Pokemon</title>
     <link rel="stylesheet" href = "pokemon.css">
 </head>
 
@@ -13,13 +13,20 @@
 <p id = "pokemonType"></p>
 
 <form id = "pokemonForm"> 
-<input type = "text" id = "pokemonName", placeholder="Enter pokemon name">
-<button onclick="getPokemon()">Fetch Pokemon</button><br>
+
+<input 
+    type = "text" 
+    id = "pokemonName", 
+    placeholder="Enter pokemon name"
+    >
+<div id="suggestion"></div>
+
+<button type="submit">Fetch Pokemon</button><br>
 <img src = "" alt = "Pokemon" id = "Pokemon" >
 </form>
 </div>
  <script src="pokemonAPI.js""> </script>
 
- 
+
 </body>
 </html>

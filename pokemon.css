@@ -12,3 +12,26 @@
     width: 180px;
 
 }
+
+#pokemonName {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+#suggestion {
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#suggestion div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestion div:hover {
+    background-color: #eee;
+}

@@ -1,3 +1,51 @@
+const input = document.getElementById("pokemonName");
+const suggestion = document.getElementById("suggestion");
+
+
+
+let pokemonList = []
+
+
+async function loadPokemonNames() {
+    const response = await fetch(
+        "https://pokeapi.co/api/v2/pokemon?limit=2000"
+    );
+    const data = await response.json();
+
+    pokemonList = data.results.map(pokemon => pokemon.name);
+
+}
+
+loadPokemonNames();
+
+input.addEventListener("input", () => {
+    const value = input.value.toLowerCase();
+
+    suggestion.innerHTML = "";
+
+    if (value === "") return;
+
+    const matches = pokemonList
+    .filter(name => name.startsWith(value))
+    .slice(0, 5);
+
+    matches.forEach(name => {
+        const div = document.createElement("div");
+
+        div.textContent = 
+            name.charAt(0).toUpperCase() + name.slice(1);
+
+        div.addEventListener("click", () => {
+            input.value = name;
+            suggestion.innerHTML = "";
+            getPokemon();
+        });
+
+        suggestion.appendChild(div);
+    })
+})
+
+
 
 const typeColors = {
     fire: "#F08030",
@@ -81,11 +129,14 @@ async function getPokemon() {
     } catch (error) {
         console.log(error);
     }
+
+    suggestion.innerHTML = "";
 }
 
- const input = document.getElementById("pokemonForm");
 
- input.addEventListener("submit", (event) => {
+ const pokemonForm = document.getElementById("pokemonForm");
+
+ pokemonForm.addEventListener("submit", (event) => {
     // event.preventDefault() stops browser default behaviour.
     // "When the form is submitted, don't reload the page. Just fetch and display the Pokémon.
     event.preventDefault();
