@@ -5,6 +5,15 @@ const suggestion = document.getElementById("suggestion");
 
 let pokemonList = []
 
+function formatText(text) {
+    return text
+    .split("-")
+    .map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(" ");
+}
+
 
 async function loadPokemonNames() {
     const response = await fetch(
@@ -76,7 +85,12 @@ async function getPokemon() {
     const idElement = document.getElementById("idDisplay");
     const typeElement = document.getElementById("pokemonType");
     const card = document.getElementById("pokemonCard");
-   
+    const heightElement = document.getElementById("pokemonHeight");
+    const weightElement = document.getElementById("pokemonWeight");
+    const abilityElement = document.getElementById("pokemonAbility");
+
+
+
     // Hide previous image
     imgElement.style.display = "none";
     imgElement.src = "";
@@ -102,6 +116,7 @@ async function getPokemon() {
 
         card.style.backgroundColor = typeColors[primaryType];
 
+
         // Pokemon name
 
         // we want First letter to be capitalized so name.charAt(0) returns p in pikachu for example
@@ -109,7 +124,7 @@ async function getPokemon() {
         nameElement.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
 
         // Pokemon Id
-        idElement.textContent = `#${data.id}`;
+        idElement.textContent = `Id: ${data.id}`;
 
         // Pokemon Types
         // we have to use map here instead of forEach, because we want to extract all the
@@ -120,11 +135,21 @@ async function getPokemon() {
 
         typeElement.textContent = `Type: ${types.join(", ")}`;
 
+        heightElement.textContent = `Height: ${data.height / 10} m`;
+        weightElement.textContent = `Weight: ${data.weight / 10} kg`;
+
+        const abilities = data.abilities.map(
+            abilityInfo => formatText(abilityInfo.ability.name)
+        );
+
+        abilityElement.textContent = `Abilities: ${abilities.join(", ")}`;
+
         const pokemonSprite = data.sprites.other["official-artwork"].front_default;
        
        
         imgElement.src = pokemonSprite;
         imgElement.style.display = "block"
+
 
     } catch (error) {
         console.log(error);
